@@ -1,10 +1,9 @@
 # Problem To Solve
-* Can't put 'timerTV' above the VideoView and I dont know how to fix, when it comes to 'ImageView' it works prefect. End in can't display the clock when you in a video.
-* Small Memory Leak, I haven't work with LeakCanary so this may caused by the bitmap in recyclerViewAdapter. I'll fix it later.
+* The clock only show up in the Gravity_Bottom Video Case, while work prefect in the ImageView.
+* Small Memory Leak. I used LeakCanary but find no result, only the 'A resource fail to release' in the console.
 
 # Progress
-* Problem 1: It turns out the problem caused by the layoutParam in the LandScape FrameLayout.  
-when it's LandScape, widget can't be assigned correctly except Gravity_Bottom. Still confused.
+* Handling the memory leak
 
 
 # Basic Info

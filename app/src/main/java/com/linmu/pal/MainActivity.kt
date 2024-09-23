@@ -3,14 +3,14 @@ package com.linmu.pal
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.WindowInsetsController
 import android.widget.ImageView
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.linmu.pal.mediapicker.MultiImagePicker
-import com.linmu.pal.mediapicker.SingleImagePicker
-import com.linmu.pal.mediapicker.SingleVideoPicker
+import com.linmu.pal.mediahandler.CropImageLauncher
+import com.linmu.pal.mediahandler.MultiImagePicker
+import com.linmu.pal.mediahandler.SingleImagePicker
+import com.linmu.pal.mediahandler.SingleVideoPicker
 import com.linmu.pal.utils.FileOperation
 import kotlinx.coroutines.launch
 
@@ -22,6 +22,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var singleVideoIV: ImageView
     private lateinit var thumbnailRV: RecyclerView
     private lateinit var thumbnailAdapter: ThumbnailAdapter
+    private lateinit var cropImageLauncher: CropImageLauncher
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,7 +36,7 @@ class MainActivity : AppCompatActivity() {
             val editor = appInitializedSP.edit()
             editor.putBoolean("initialized", true)
             editor.apply()
-        }else{
+        } else {
             // initialized the DataHolder
             FileOperation.readRecord(this)
         }
@@ -43,20 +44,33 @@ class MainActivity : AppCompatActivity() {
         bindView()
         // event
         bindEvent()
+        cropImageLauncher = CropImageLauncher(this)
         // recyclerView
         val linearLayoutManager = LinearLayoutManager(this)
         linearLayoutManager.orientation = LinearLayoutManager.VERTICAL
         thumbnailRV.layoutManager = linearLayoutManager
-        thumbnailAdapter = ThumbnailAdapter(this){deletePosition->
-            // delete file
-            if (FileOperation.deleteFile(this,DataHolder.mediaList[deletePosition].mediaName)){
-                Log.d(TAG, "Delete Done Notify Change $deletePosition")
-                // notify change
-                thumbnailAdapter.notifyItemRemoved(deletePosition)
-                FileOperation.writeRecord(this)
-            }
-        }
+        thumbnailAdapter = ThumbnailAdapter(this,
+            { deletePosition ->
+                // delete file
+                if (FileOperation.deleteFile(
+                        this,
+                        DataHolder.mediaList[deletePosition].mediaName
+                    )
+                ) {
+                    Log.d(TAG, "Delete Done Notify Change $deletePosition")
+                    // notify change
+                    thumbnailAdapter.notifyItemRemoved(deletePosition)
+                }
+            },
+            { cropPosition ->
+                cropImageLauncher.launch(cropPosition)
+            })
         thumbnailRV.adapter = thumbnailAdapter
+    }
+
+    override fun onStop() {
+        super.onStop()
+        FileOperation.writeRecord(this)
     }
 
     private fun appInitialize() {
@@ -83,7 +97,7 @@ class MainActivity : AppCompatActivity() {
         singleImageIV.setOnClickListener {
             lifecycleScope.launch {
                 val res = singleImagePicker.launch()
-                if (res != 0){
+                if (res != 0) {
                     thumbnailAdapter.notifyItemInserted(DataHolder.mediaList.size - 1)
                     FileOperation.writeRecord(this@MainActivity)
                 }
@@ -93,8 +107,8 @@ class MainActivity : AppCompatActivity() {
             val startPosition = DataHolder.mediaList.size
             lifecycleScope.launch {
                 val res = multiImagePicker.launch()
-                if (res != 0){
-                    thumbnailAdapter.notifyItemRangeInserted(startPosition,res)
+                if (res != 0) {
+                    thumbnailAdapter.notifyItemRangeInserted(startPosition, res)
                     FileOperation.writeRecord(this@MainActivity)
                 }
             }
@@ -102,8 +116,8 @@ class MainActivity : AppCompatActivity() {
         singleVideoIV.setOnClickListener {
             lifecycleScope.launch {
                 val res = singleVideoPicker.launch()
-                if (res != 0){
-                    thumbnailAdapter.notifyItemInserted(DataHolder.mediaList.size -1)
+                if (res != 0) {
+                    thumbnailAdapter.notifyItemInserted(DataHolder.mediaList.size - 1)
                     FileOperation.writeRecord(this@MainActivity)
                 }
             }

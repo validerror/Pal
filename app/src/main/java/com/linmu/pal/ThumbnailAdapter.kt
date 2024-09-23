@@ -19,7 +19,8 @@ import java.io.File
 
 class ThumbnailAdapter(
     private val context: Context,
-    private val deleteClick: (Int) -> Unit
+    private val deleteClick: (Int) -> Unit,
+    private val cropClick:(Int) -> Unit
 ) : RecyclerView.Adapter<ThumbnailAdapter.ViewHolder>() {
     private val TAG: String = "ThumbnailAdapter"
 
@@ -33,9 +34,8 @@ class ThumbnailAdapter(
 
         init {
             deleteIV.setOnClickListener {
-                Log.d(TAG, "DeleteClick At: $adapterPosition")
                 deleteClick(adapterPosition)
-                coverBitmap?.recycle()
+//                coverBitmap?.recycle()
             }
             playIV.setOnClickListener {
                 val intent = Intent(context, PalActivity::class.java)
@@ -43,8 +43,7 @@ class ThumbnailAdapter(
                 context.startActivity(intent)
             }
             configIV.setOnClickListener{
-                Toast.makeText(context, "Wait For Developing", Toast.LENGTH_SHORT).show()
-                // TODO crop function here
+                cropClick(adapterPosition)
             }
             anchorIV.setOnClickListener{
                 DataHolder.mediaList[adapterPosition].rotateQuarter()
@@ -62,6 +61,7 @@ class ThumbnailAdapter(
     override fun getItemCount(): Int = DataHolder.mediaList.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        holder.coverBitmap?.recycle()
         val displayMediaInfo:MediaInfo = DataHolder.mediaList[position]
         val thumbnailDir = File(context.filesDir, "thumbnail")
         val coverFile = File(thumbnailDir, displayMediaInfo.mediaName)
