@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="60dp">
+
+    <TextView
+        android:id="@+id/ess_tv_settingName"
+        android:layout_width="240dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center_vertical"
+        android:layout_marginStart="10dp"
+        android:fontFamily="serif"
+        android:gravity="center_vertical"
+        android:singleLine="true"
+        android:text="@string/settingName"
+        android:textSize="18sp" />
+
+    <com.google.android.material.materialswitch.MaterialSwitch
+        android:id="@+id/ess_ms_switch"
+        android:layout_width="60dp"
+        android:layout_height="50dp"
+        android:layout_gravity="end|center_vertical"
+        android:layout_marginEnd="10dp" />
+</FrameLayout>

@@ -16,18 +16,33 @@ import java.io.File
 
 class FileOperation {
     companion object {
-        const val TAG: String = "FileOperation"
-        const val ThumbnailWidth: Int = 300
-        const val ThumbnailHeight: Int = 80
-        const val CompressQuality: Int = 90
-        const val RecordFileName: String = "DataList.json"
+        private const val TAG: String = "FileOperation"
+        private const val ThumbnailWidth: Int = 300
+        private const val ThumbnailHeight: Int = 80
+        private const val CompressQuality: Int = 90
+        private const val RecordFileName: String = "DataList.json"
+        private const val ThumbnailDirName: String = "thumbnail"
+        private const val MediaDirName: String = "media"
+        private const val RecordDirName: String = "record"
+        private val gson = Gson()
+
+        fun loadThumbnails(context: Context) {
+            DataHolder.releaseBitmap()
+            val destinationDir = File(context.filesDir, ThumbnailDirName)
+            for (i in 0 until DataHolder.mediaList.size) {
+                val thumbnailName = DataHolder.mediaList[i].mediaName
+                val thumbnailFile = File(destinationDir, thumbnailName)
+                val thumbnailBitmap = BitmapFactory.decodeFile(thumbnailFile.absolutePath)
+                DataHolder.thumbnailList.add(thumbnailBitmap)
+            }
+        }
 
         // read and load the data in fileDir/record/RecordFileName to DataHolder
         fun readRecord(context: Context) {
-            val destinationDir = File(context.filesDir, "record")
-            val inputStream = File(destinationDir, RecordFileName).inputStream()
+            val destinationDir = File(context.filesDir, RecordDirName)
+            val destinationFile = File(destinationDir, RecordFileName)
+            val inputStream = destinationFile.inputStream()
             val bufferReader = inputStream.bufferedReader()
-            val gson = Gson()
             val type = object : TypeToken<MutableList<MediaInfo>>() {}.type
             val readResult = gson.fromJson<MutableList<MediaInfo>>(bufferReader, type)
             readResult?.forEach { mediaInfo ->
@@ -39,18 +54,20 @@ class FileOperation {
             }
             bufferReader.close()
             inputStream.close()
+            loadThumbnails(context)
             Log.d(TAG, "ReadRecord: Done")
         }
 
         // write current list in DataHolder to fileDir/record/RecordFileName
         fun writeRecord(context: Context) {
-            val gson = Gson()
             val json = gson.toJson(DataHolder.mediaList)
-            val destinationDir = File(context.filesDir, "record")
-            val outputStream = File(destinationDir, RecordFileName).outputStream()
-            outputStream.write(json.toByteArray())
-            outputStream.close()
-            Log.d(TAG, "WriteRecord: Done DataSize:${DataHolder.mediaList.size}")
+            val destinationDir = File(context.filesDir, RecordDirName)
+            val outputStreamToFile = File(destinationDir, RecordFileName).outputStream()
+            outputStreamToFile.use { outputStream ->
+                val data = json.toByteArray()
+                outputStream.write(data)
+            }
+            Log.d(TAG, "WriteRecord: Done")
         }
 
         fun createSubDir(context: Context, subDirName: String): Boolean {
@@ -63,9 +80,9 @@ class FileOperation {
             }
         }
 
-        fun createImageThumbnail(context: Context, imageUri: Uri) {
+        fun createImageThumbnail(context: Context, imageUri: Uri): String {
             val filename = getImageNameFromUri(context, imageUri) ?: "Unknown"
-            val destinationDir = File(context.filesDir, "thumbnail")
+            val destinationDir = File(context.filesDir, ThumbnailDirName)
             val inputStreamForThumbnail = context.contentResolver.openInputStream(imageUri)
             val oriBitmap = BitmapFactory.decodeStream(inputStreamForThumbnail)
             val thumbnail =
@@ -76,12 +93,13 @@ class FileOperation {
             oriBitmap.recycle()
             inputStreamForThumbnail?.close()
             outputStream.close()
+            return filename
         }
 
-        fun createVideoThumbnail(context: Context, videoUri: Uri) {
+        fun createVideoThumbnail(context: Context, videoUri: Uri): String {
             val filename = getVideoNameFromUri(context, videoUri) ?: "Unknown"
-            val resourceFile = File(context.filesDir, "media")
-            val destinationDir = File(context.filesDir, "thumbnail")
+            val resourceFile = File(context.filesDir, MediaDirName)
+            val destinationDir = File(context.filesDir, ThumbnailDirName)
             val videoFile = File(resourceFile, filename)
             val thumbnailSize = Size(ThumbnailWidth, ThumbnailHeight)
             val thumbnailBitmap =
@@ -90,11 +108,12 @@ class FileOperation {
             thumbnailBitmap.compress(Bitmap.CompressFormat.JPEG, CompressQuality, outputStream)
             outputStream.close()
             thumbnailBitmap.recycle()
+            return filename
         }
 
         fun deleteFile(context: Context, filename: String): Boolean {
-            val mediaDir = File(context.filesDir, "media")
-            val thumbnailDir = File(context.filesDir, "thumbnail")
+            val mediaDir = File(context.filesDir, MediaDirName)
+            val thumbnailDir = File(context.filesDir, ThumbnailDirName)
             val mediaToDelete = File(mediaDir, filename)
             val flag1 = mediaToDelete.delete()
             val thumbnailToDelete = File(thumbnailDir, filename)
@@ -110,7 +129,7 @@ class FileOperation {
             // as a inner file, use lastPathSegment to get filename instead of query
             val filename = cacheFileUri.lastPathSegment
             filename?.let {
-                val destinationDir = File(context.filesDir, "media")
+                val destinationDir = File(context.filesDir, MediaDirName)
                 val outputStream = File(destinationDir, filename).outputStream()
                 val inputStream = File(context.cacheDir, filename).inputStream()
                 inputStream.copyTo(outputStream)
@@ -125,7 +144,7 @@ class FileOperation {
             val filename = getVideoNameFromUri(context, videoUri) ?: "Unknown"
             if (DataHolder.filenameExist(filename)) return false
             val inputStreamForCopy = context.contentResolver.openInputStream(videoUri)
-            val destinationDir = File(context.filesDir, "media")
+            val destinationDir = File(context.filesDir, MediaDirName)
             val outputStream = File(destinationDir, filename).outputStream()
             inputStreamForCopy?.copyTo(outputStream)
             inputStreamForCopy?.close()
@@ -142,7 +161,7 @@ class FileOperation {
             val filename = getImageNameFromUri(context, imageUri) ?: "Unknown"
             if (DataHolder.filenameExist(filename)) return false
             val inputStreamForCopy = context.contentResolver.openInputStream(imageUri)
-            val destinationDir = File(context.filesDir, "media")
+            val destinationDir = File(context.filesDir, MediaDirName)
             val outputStream = File(destinationDir, filename).outputStream()
             inputStreamForCopy?.copyTo(outputStream)
             inputStreamForCopy?.close()

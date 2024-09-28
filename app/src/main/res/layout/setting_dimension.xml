@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="300dp"
+    android:layout_height="200dp"
+    android:stretchColumns="0">
+
+    <TableRow>
+
+        <TextView
+            android:layout_width="80dp"
+            android:layout_height="40dp"
+            android:fontFamily="serif"
+            android:gravity="center"
+            android:text="@string/dimension"
+            android:textSize="18sp" />
+
+        <TextView
+            android:layout_width="80dp"
+            android:layout_height="40dp"
+            android:fontFamily="serif"
+            android:gravity="center"
+            android:text="@string/device"
+            android:textSize="18sp" />
+
+        <TextView
+            android:layout_width="80dp"
+            android:layout_height="40dp"
+            android:fontFamily="serif"
+            android:gravity="center"
+            android:text="@string/media"
+            android:textSize="18sp" />
+    </TableRow>
+
+    <TableRow>
+
+        <TextView
+            android:layout_width="80dp"
+            android:layout_height="40dp"
+            android:fontFamily="serif"
+            android:gravity="center"
+            android:text="@string/dimensionWidth"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/sd_dWidth"
+            android:layout_width="80dp"
+            android:layout_height="40dp"
+            android:fontFamily="serif"
+            android:gravity="center"
+            android:text="@string/defaultValue"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/sd_mWidth"
+            android:layout_width="80dp"
+            android:layout_height="40dp"
+            android:fontFamily="serif"
+            android:gravity="center"
+            android:text="@string/defaultValue"
+            android:textSize="18sp" />
+    </TableRow>
+
+    <TableRow>
+
+        <TextView
+            android:layout_width="80dp"
+            android:layout_height="40dp"
+            android:fontFamily="serif"
+            android:gravity="center"
+            android:text="@string/dimensionHeight"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/sd_dHeight"
+            android:layout_width="80dp"
+            android:layout_height="40dp"
+            android:fontFamily="serif"
+            android:gravity="center"
+            android:text="@string/defaultValue"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/sd_mHeight"
+            android:layout_width="80dp"
+            android:layout_height="40dp"
+            android:fontFamily="serif"
+            android:gravity="center"
+            android:text="@string/defaultValue"
+            android:textSize="18sp" />
+    </TableRow>
+
+    <TableRow>
+
+        <TextView
+            android:layout_width="80dp"
+            android:layout_height="40dp"
+            android:fontFamily="serif"
+            android:gravity="center"
+            android:text="@string/dimensionRatio"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/sd_dRatio"
+            android:layout_width="80dp"
+            android:layout_height="40dp"
+            android:fontFamily="serif"
+            android:gravity="center"
+            android:text="@string/defaultValue"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/sd_mRatio"
+            android:layout_width="80dp"
+            android:layout_height="40dp"
+            android:fontFamily="serif"
+            android:gravity="center"
+            android:text="@string/defaultValue"
+            android:textSize="18sp" />
+    </TableRow>
+
+    <TableRow>
+
+        <TextView
+            android:id="@+id/sd_crop"
+            android:layout_width="80dp"
+            android:layout_height="40dp"
+            android:layout_span="3"
+            android:background="@drawable/round_corner_action"
+            android:fontFamily="serif"
+            android:gravity="center"
+            android:text="@string/crop"
+            android:textSize="18sp" />
+    </TableRow>
+
+</TableLayout>

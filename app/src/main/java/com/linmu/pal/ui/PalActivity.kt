@@ -34,6 +34,7 @@ class PalActivity : AppCompatActivity() {
     private lateinit var decorView: ViewGroup
     private lateinit var timerTV: TextView
     private lateinit var destinationDir: File
+    private lateinit var displayMediaInfo:MediaInfo
     private var imageBitmap: Bitmap? = null
     private var mediaIndex: Int = 0
     private var modifiedVV: ModifiedVideoVIew? = null
@@ -50,7 +51,8 @@ class PalActivity : AppCompatActivity() {
         // set orientation
         setTheme(R.style.RealFullScreenTheme)
         mediaIndex = intent.getIntExtra("MediaIndex", 0)
-        targetOrientation = DataHolder.mediaList[mediaIndex].orientation
+        displayMediaInfo = DataHolder.mediaList[mediaIndex]
+        targetOrientation = displayMediaInfo.orientation
         requestedOrientation = when (targetOrientation) {
             MediaInfo.ORIENTATION_PORTRAIT -> {
                 ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
@@ -69,7 +71,7 @@ class PalActivity : AppCompatActivity() {
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         // set media
         destinationDir = File(filesDir, "media")
-        when (DataHolder.mediaList[mediaIndex].type) {
+        when (displayMediaInfo.type) {
             MediaInfo.TYPE_VIDEO -> {
                 setupModifiedVideoView()
             }
@@ -80,13 +82,17 @@ class PalActivity : AppCompatActivity() {
         }
         setContentView(R.layout.activity_pal)
         // bind the elements in layout and set the digital font
-        setupTimer()
+        if (displayMediaInfo.enableClock){
+            setupTimer()
+        }else{
+            timerTV = findViewById(R.id.pa_tv_timer)
+            timerTV.visibility = View.GONE
+        }
     }
 
     override fun onStart() {
         super.onStart()
         modifiedVV?.start()
-//        modifiedVV?.visibility = View.INVISIBLE
     }
 
     private fun setupTimer(){
@@ -98,10 +104,10 @@ class PalActivity : AppCompatActivity() {
         // timer gravity
         when(targetOrientation){
             MediaInfo.ORIENTATION_PORTRAIT -> {
-                elementGravityPortrait(timerTV, DataHolder.mediaList[mediaIndex].gravity)
+                elementGravityPortrait(timerTV, displayMediaInfo.gravity)
             }
             else -> {
-                elementGravityLandscape(timerTV,DataHolder.mediaList[mediaIndex].gravity)
+                elementGravityLandscape(timerTV,displayMediaInfo.gravity)
             }
         }
     }
@@ -170,7 +176,6 @@ class PalActivity : AppCompatActivity() {
         view.rotation = rotationAngle
     }
 
-
     override fun onDestroy() {
         super.onDestroy()
         imageBitmap?.recycle()
@@ -189,7 +194,7 @@ class PalActivity : AppCompatActivity() {
             layoutParams.gravity = Gravity.CENTER
             it.layoutParams = layoutParams
             decorView.addView(modifiedVV,0)
-            val videoFileName = DataHolder.mediaList[mediaIndex].mediaName
+            val videoFileName = displayMediaInfo.mediaName
             val videoFile = File(destinationDir, videoFileName)
             it.setVideoPath(videoFile.absolutePath)
             it.setOnCompletionListener {
@@ -201,7 +206,7 @@ class PalActivity : AppCompatActivity() {
     }
 
     private fun setupImageView() {
-        val imageFileName: String = DataHolder.mediaList[mediaIndex].mediaName
+        val imageFileName: String = displayMediaInfo.mediaName
         val imageFile = File(destinationDir, imageFileName)
         imageBitmap = getBitmapFromFile(imageFile)
         imageBitmap?.let { bmp ->

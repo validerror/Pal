@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/df_setting"
+    android:layout_width="310dp"
+    android:layout_height="match_parent"
+    android:background="@drawable/round_corner"
+    android:orientation="vertical"
+    android:padding="5dp">
+    <!-- thumbnail here -->
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/df_thumbnail"
+        android:scaleType="fitCenter"
+        android:layout_width="300dp"
+        android:layout_height="240dp"
+        android:layout_gravity="center_horizontal"
+        app:shapeAppearance="@style/RoundCorner"
+        app:strokeColor="@null" />
+    <!-- basic action -->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp">
+
+        <TextView
+            android:id="@+id/df_cancel"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:layout_gravity="start|center_vertical"
+            android:layout_marginStart="10dp"
+            android:background="@drawable/reactive_negative"
+            android:fontFamily="serif"
+            android:gravity="center"
+            android:text="@string/settingCancel"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/df_apply"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:layout_gravity="end|center_vertical"
+            android:layout_marginEnd="10dp"
+            android:background="@drawable/reactive_positive"
+            android:fontFamily="serif"
+            android:gravity="center"
+            android:text="@string/settingApply"
+            android:textSize="18sp" />
+    </FrameLayout>
+
+</LinearLayout>

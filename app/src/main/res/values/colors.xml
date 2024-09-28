@@ -2,10 +2,15 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="eyeFriendly">#FFC7EDCC</color>
+    <color name="eyeFriendly">#FFD5D4D4</color>
     <color name="gray">#CCCCCC</color>
     <color name="textColor">#E3E3FF</color>
     <color name="textShadowColor">#000000</color>
     <color name="transparent">#00000000</color>
     <color name="blue">#00BCD4</color>
+    <color name="positive">#8BC34A</color>
+    <color name="positiveDark">#4CAF50</color>
+    <color name="negative">#FF5722</color>
+    <color name="negativeDark">#F44336</color>
+    <color name="action">#DCCFF3</color>
 </resources>

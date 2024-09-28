@@ -3,4 +3,19 @@
     <string name="ButtonInfo">X</string>
     <string name="main_info">Developed By LinMuBinary</string>
     <string name="defaultTime">00:00</string>
+    <string name="settingName">Setting Name</string>
+    <string name="settingCancel">Cancel</string>
+    <string name="settingApply">Apply</string>
+    <string name="editTextHint">Value</string>
+    <string name="dimension">Dimension:</string>
+    <string name="dimensionWidth">Width</string>
+    <string name="dimensionHeight">Height</string>
+    <string name="dimensionRatio">AspectRatio</string>
+    <string name="device">Device</string>
+    <string name="media">Media</string>
+    <string name="defaultValue">0</string>
+    <string name="crop">ClickToCrop</string>
+    <string name="enableClock">Enable Clock</string>
+    <string name="elementGravity">Element Gravity</string>
+    <string name="clockColor">Clock Color</string>
 </resources>

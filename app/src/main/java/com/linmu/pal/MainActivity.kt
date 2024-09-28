@@ -1,9 +1,13 @@
 package com.linmu.pal
 
-import androidx.appcompat.app.AppCompatActivity
+import android.annotation.SuppressLint
 import android.os.Bundle
+import android.os.StrictMode
+import android.os.StrictMode.ThreadPolicy
+import android.os.StrictMode.VmPolicy
 import android.util.Log
 import android.widget.ImageView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -11,8 +15,10 @@ import com.linmu.pal.mediahandler.CropImageLauncher
 import com.linmu.pal.mediahandler.MultiImagePicker
 import com.linmu.pal.mediahandler.SingleImagePicker
 import com.linmu.pal.mediahandler.SingleVideoPicker
+import com.linmu.pal.ui.MediaSettingDialogFragment
 import com.linmu.pal.utils.FileOperation
 import kotlinx.coroutines.launch
+
 
 class MainActivity : AppCompatActivity() {
     private val TAG: String = "Activity_MA"
@@ -23,6 +29,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var thumbnailRV: RecyclerView
     private lateinit var thumbnailAdapter: ThumbnailAdapter
     private lateinit var cropImageLauncher: CropImageLauncher
+    private var settingDialog: MediaSettingDialogFragment? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -62,15 +69,30 @@ class MainActivity : AppCompatActivity() {
                     thumbnailAdapter.notifyItemRemoved(deletePosition)
                 }
             },
-            { cropPosition ->
-                cropImageLauncher.launch(cropPosition)
+            { settingPosition ->
+                startSettingDialog(settingPosition)
+                settingDialog?.show(supportFragmentManager, "settingDialog")
             })
         thumbnailRV.adapter = thumbnailAdapter
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    override fun onRestart() {
+        super.onRestart()
+        FileOperation.readRecord(this)
+        thumbnailAdapter.notifyDataSetChanged()
     }
 
     override fun onStop() {
         super.onStop()
         FileOperation.writeRecord(this)
+        DataHolder.releaseBitmap()
+    }
+
+    private fun startSettingDialog(settingPosition:Int){
+        if (settingPosition != -1) {
+            settingDialog = MediaSettingDialogFragment(settingPosition, cropImageLauncher)
+        }
     }
 
     private fun appInitialize() {

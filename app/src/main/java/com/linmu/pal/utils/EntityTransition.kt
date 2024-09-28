@@ -2,46 +2,47 @@ package com.linmu.pal.utils
 
 import android.content.Context
 import android.graphics.BitmapFactory
-import android.media.MediaMetadataRetriever
 import android.net.Uri
-import android.util.Log
 import com.linmu.pal.DataHolder
 import com.linmu.pal.entity.MediaInfo
+import java.io.File
 
 class EntityTransition {
-    companion object{
-        fun videoToEntity(context: Context,videoUri: Uri,filename: String):Boolean{
-            val (width,height) = VideoMeta.getVideoDimensions(context,videoUri)
+    companion object {
+        fun videoToEntity(context: Context, videoUri: Uri, filename: String): Boolean {
+            val (width, height) = MediaMeta.getVideoDimensions(context, videoUri)
             var orientation = MediaInfo.ORIENTATION_LANDSCAPE
             var gravity = MediaInfo.GRAVITY_BOTTOM
-            if (width < height){
+            if (width < height) {
                 orientation = MediaInfo.ORIENTATION_PORTRAIT
                 gravity = MediaInfo.GRAVITY_BOTTOM
             }
             val mediaInfo = MediaInfo(
-                MediaInfo.TYPE_VIDEO,orientation,
+                MediaInfo.TYPE_VIDEO, orientation,
                 gravity,
-                width,height,filename
+                width, height, filename
             )
             DataHolder.mediaList.add(mediaInfo)
             return true
         }
 
         // Image always keep portrait till crop by user
-        fun imageToEntity(context: Context,imageUri: Uri,filename:String):Boolean{
-            val inputStreamForInfo = context.contentResolver.openInputStream(imageUri)
-            val bitmapOption = BitmapFactory.Options().apply {
-                inJustDecodeBounds = true
-            }
-            val container = BitmapFactory.decodeStream(inputStreamForInfo,null,bitmapOption)
+        fun imageToEntity(context: Context, imageUri: Uri, filename: String): Boolean {
+            val (width, height) = MediaMeta.getImageDimensions(context, imageUri)
             val mediaInfo = MediaInfo(
                 MediaInfo.TYPE_IMAGE, MediaInfo.ORIENTATION_PORTRAIT,
                 MediaInfo.GRAVITY_BOTTOM,
-                bitmapOption.outWidth,bitmapOption.outHeight,filename)
+                width, height, filename
+            )
             DataHolder.mediaList.add(mediaInfo)
-            container?.recycle()
-            inputStreamForInfo?.close()
             return true
+        }
+
+        fun addThumbnailToDataHolder(context: Context, filename: String) {
+            val destinationDir = File(context.filesDir, "thumbnail")
+            val thumbnailFile = File(destinationDir, filename)
+            val thumbnailBitmap = BitmapFactory.decodeFile(thumbnailFile.absolutePath)
+            DataHolder.thumbnailList.add(thumbnailBitmap)
         }
     }
 }

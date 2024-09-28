@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="60dp">
+
+    <TextView
+        android:id="@+id/evs_tv_settingName"
+        android:layout_width="240dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center_vertical"
+        android:layout_marginStart="10dp"
+        android:fontFamily="serif"
+        android:gravity="center_vertical"
+        android:singleLine="true"
+        android:text="@string/settingName"
+        android:textSize="18sp" />
+
+    <EditText
+        android:id="@+id/evs_et_value"
+        android:layout_width="120dp"
+        android:layout_height="50dp"
+        android:layout_gravity="end|center_vertical"
+        android:layout_marginEnd="10dp"
+        android:gravity="center_horizontal"
+        android:hint="@string/editTextHint"
+        android:inputType="number" />
+
+</FrameLayout>

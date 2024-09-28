@@ -7,6 +7,7 @@ import android.net.Uri
 import android.provider.MediaStore
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import com.linmu.pal.utils.EntityTransition
 import com.linmu.pal.utils.FileOperation
 import kotlinx.coroutines.CompletableDeferred
 
@@ -29,7 +30,8 @@ class MultiImagePicker(
                                 uri?.let {
                                     val flag1 = FileOperation.copyImageToDir(activity, uri)
                                     if (flag1){
-                                        FileOperation.createImageThumbnail(activity,uri)
+                                        val filename = FileOperation.createImageThumbnail(activity,uri)
+                                        EntityTransition.addThumbnailToDataHolder(activity,filename)
                                         itemChange += 1
                                     }
                                 }

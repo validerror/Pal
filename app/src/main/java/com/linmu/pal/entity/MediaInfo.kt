@@ -6,8 +6,23 @@ data class MediaInfo(
     var gravity: Int,
     var mediaWidth: Int,
     var mediaHeight: Int,
-    val mediaName: String
+    val mediaName: String,
+    var enableClock: Boolean = true,
+    var clockColor: Int = 0
 ) {
+    fun deepCopy(): MediaInfo {
+        return MediaInfo(
+            type,
+            orientation,
+            gravity,
+            mediaWidth,
+            mediaHeight,
+            mediaName,
+            enableClock,
+            clockColor
+        )
+    }
+
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other !is MediaInfo) return false
