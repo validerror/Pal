@@ -8,13 +8,11 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowInsetsController
 import android.view.WindowManager
-import android.widget.Button
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
@@ -98,6 +96,7 @@ class PalActivity : AppCompatActivity() {
     private fun setupTimer(){
         timerTV = findViewById(R.id.pa_tv_timer)
         val typeface: Typeface = Typeface.createFromAsset(assets, "fonts/digital-7.ttf")
+        timerTV.setTextColor(displayMediaInfo.clockColor)
         timerTV.typeface = typeface
         // start timer
         handler.post(updateTimeRunnable)

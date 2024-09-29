@@ -1,9 +1,11 @@
 package com.linmu.pal
 
 import android.graphics.Bitmap
+import android.util.Log
 import com.linmu.pal.entity.MediaInfo
 
 object DataHolder {
+    val TAG:String = "DataHolder"
     var mediaList:MutableList<MediaInfo> = arrayListOf()
     var thumbnailList:MutableList<Bitmap> = arrayListOf()
 

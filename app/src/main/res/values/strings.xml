@@ -18,4 +18,8 @@
     <string name="enableClock">Enable Clock</string>
     <string name="elementGravity">Element Gravity</string>
     <string name="clockColor">Clock Color</string>
+    <string name="argb_a">A</string>
+    <string name="argb_r">R</string>
+    <string name="argb_g">G</string>
+    <string name="argb_b">B</string>
 </resources>

@@ -2,20 +2,13 @@ package com.linmu.pal
 
 import android.content.Context
 import android.content.Intent
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.imageview.ShapeableImageView
-import com.google.android.material.snackbar.Snackbar
-import com.linmu.pal.entity.MediaInfo
 import com.linmu.pal.ui.PalActivity
-import java.io.File
 
 class ThumbnailAdapter(
     private val context: Context,
@@ -28,7 +21,7 @@ class ThumbnailAdapter(
         val coverSIV: ShapeableImageView = itemView.findViewById(R.id.e_p_cover)
         private val deleteIV: ImageView = itemView.findViewById(R.id.e_p_delete)
         private val playIV: ImageView = itemView.findViewById(R.id.e_p_play)
-        val settingIV:ImageView = itemView.findViewById(R.id.e_p_setting)
+        private val settingIV:ImageView = itemView.findViewById(R.id.e_p_setting)
 
         init {
             deleteIV.setOnClickListener {

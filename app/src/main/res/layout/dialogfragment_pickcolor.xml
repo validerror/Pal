@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="300dp"
+    android:layout_height="400dp"
+    android:background="@drawable/round_corner"
+    android:orientation="vertical"
+    android:padding="5dp">
+
+    <ImageView
+        android:id="@+id/dfpc_preview"
+        android:layout_width="280dp"
+        android:layout_height="100dp"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/grid_blackwhite" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp">
+
+        <TextView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_gravity="center_vertical"
+            android:gravity="center"
+            android:text="@string/argb_r"
+            android:textSize="18sp" />
+
+        <SeekBar
+            android:id="@+id/dfpc_sb_r"
+            android:layout_width="250dp"
+            android:layout_height="50dp"
+            android:layout_gravity="end|center_vertical"
+            android:max="255"
+            android:min="0" />
+    </FrameLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+
+        <TextView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_gravity="center_vertical"
+            android:gravity="center"
+            android:text="@string/argb_g"
+            android:textSize="18sp" />
+
+        <SeekBar
+            android:id="@+id/dfpc_sb_g"
+            android:layout_width="250dp"
+            android:layout_height="50dp"
+            android:layout_gravity="end|center_vertical"
+            android:max="255"
+            android:min="0" />
+    </FrameLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+
+        <TextView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_gravity="center_vertical"
+            android:gravity="center"
+            android:text="@string/argb_b"
+            android:textSize="18sp" />
+
+        <SeekBar
+            android:id="@+id/dfpc_sb_b"
+            android:layout_width="250dp"
+            android:layout_height="50dp"
+            android:layout_gravity="end|center_vertical"
+            android:max="255"
+            android:min="0" />
+    </FrameLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+
+        <TextView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_gravity="center_vertical"
+            android:gravity="center"
+            android:text="@string/argb_a"
+            android:textSize="18sp" />
+
+        <SeekBar
+            android:id="@+id/dfpc_sb_a"
+            android:layout_width="250dp"
+            android:layout_height="50dp"
+            android:layout_gravity="end|center_vertical"
+            android:max="255"
+            android:min="0" />
+    </FrameLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginTop="10dp">
+
+        <TextView
+            android:id="@+id/dfpc_cancel"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:layout_gravity="start|center_vertical"
+            android:layout_marginStart="10dp"
+            android:background="@drawable/reactive_negative"
+            android:fontFamily="serif"
+            android:gravity="center"
+            android:text="@string/settingCancel"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/dfpc_apply"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:layout_gravity="end|center_vertical"
+            android:layout_marginEnd="10dp"
+            android:background="@drawable/reactive_positive"
+            android:fontFamily="serif"
+            android:gravity="center"
+            android:text="@string/settingApply"
+            android:textSize="18sp" />
+    </FrameLayout>
+</LinearLayout>

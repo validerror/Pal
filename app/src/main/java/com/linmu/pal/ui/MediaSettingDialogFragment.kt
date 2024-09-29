@@ -10,12 +10,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.FragmentManager
 import com.google.android.material.imageview.ShapeableImageView
 import com.google.android.material.materialswitch.MaterialSwitch
 import com.linmu.pal.DataHolder
@@ -130,6 +130,7 @@ class MediaSettingDialogFragment(
         addDimensionTable(inflater)
         addEnableClockSwitch(inflater)
         addElementGravitySetting(inflater)
+        addClockColorSetting(inflater)
     }
 
     private fun addDimensionTable(inflater: LayoutInflater) {
@@ -157,7 +158,7 @@ class MediaSettingDialogFragment(
 
     private fun updateDimension() {
         var (dWidth, dHeight) = DeviceMeta.getMaxBounds(context)
-        if (newMediaInfo.orientation == MediaInfo.ORIENTATION_LANDSCAPE){
+        if (newMediaInfo.orientation == MediaInfo.ORIENTATION_LANDSCAPE) {
             val tmp = dWidth
             dWidth = dHeight
             dHeight = tmp
@@ -187,13 +188,34 @@ class MediaSettingDialogFragment(
 
     private fun addElementGravitySetting(inflater: LayoutInflater) {
         val elementGravitySetting =
-            inflater.inflate(R.layout.setting_gravity, settingsContainer, false)
-        val gravityView: ImageView = elementGravitySetting.findViewById(R.id.sg_valueView)
-        gravityView.rotation = 90F * ((newMediaInfo.gravity + 1) % 4)
-        gravityView.setOnClickListener {
+            inflater.inflate(R.layout.element_imagesetting, settingsContainer, false)
+        val settingName: TextView = elementGravitySetting.findViewById(R.id.eis_tv_settingName)
+        settingName.text = resources.getString(R.string.elementGravity)
+        val gravitySIV: ShapeableImageView = elementGravitySetting.findViewById(R.id.eis_siv_image)
+        gravitySIV.setImageResource(R.drawable.baseline_format_underlined_32)
+        gravitySIV.rotation = 90F * ((newMediaInfo.gravity + 1) % 4)
+        gravitySIV.setOnClickListener {
             newMediaInfo.rotateQuarter()
-            gravityView.rotation = 90F * ((newMediaInfo.gravity + 1) % 4)
+            gravitySIV.rotation = 90F * ((newMediaInfo.gravity + 1) % 4)
         }
         settingsContainer.addView(elementGravitySetting)
+    }
+
+    private fun addClockColorSetting(inflater: LayoutInflater) {
+        val clockColorSetting =
+            inflater.inflate(R.layout.element_imagesetting, settingsContainer, false)
+        val settingName: TextView = clockColorSetting.findViewById(R.id.eis_tv_settingName)
+        settingName.text = resources.getString(R.string.clockColor)
+        val colorSIV: ShapeableImageView = clockColorSetting.findViewById(R.id.eis_siv_image)
+        colorSIV.setImageDrawable(ColorDrawable(newMediaInfo.clockColor))
+        colorSIV.setOnClickListener {
+            val colorPickerDialogFragment =
+                ColorPickerDialogFragment(newMediaInfo.clockColor) { resColor ->
+                    newMediaInfo.clockColor = resColor
+                    colorSIV.setImageDrawable(ColorDrawable(newMediaInfo.clockColor))
+                }
+            colorPickerDialogFragment.show(childFragmentManager,"colorDialog")
+        }
+        settingsContainer.addView(clockColorSetting)
     }
 }

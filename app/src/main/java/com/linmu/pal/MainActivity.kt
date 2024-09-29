@@ -2,9 +2,6 @@ package com.linmu.pal
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.os.StrictMode
-import android.os.StrictMode.ThreadPolicy
-import android.os.StrictMode.VmPolicy
 import android.util.Log
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity

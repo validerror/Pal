@@ -1,10 +1,7 @@
 package com.linmu.pal.utils
 
 import android.content.Context
-import android.util.DisplayMetrics
-import android.util.Log
 import android.view.WindowManager
-import android.view.WindowMetrics
 
 class DeviceMeta {
     companion object {

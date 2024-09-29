@@ -8,7 +8,7 @@ data class MediaInfo(
     var mediaHeight: Int,
     val mediaName: String,
     var enableClock: Boolean = true,
-    var clockColor: Int = 0
+    var clockColor: Int = 0xFFE6E6FA.toInt()
 ) {
     fun deepCopy(): MediaInfo {
         return MediaInfo(

@@ -4,8 +4,6 @@ import android.content.Context
 import android.graphics.BitmapFactory
 import android.media.MediaMetadataRetriever
 import android.net.Uri
-import com.linmu.pal.DataHolder
-import com.linmu.pal.entity.MediaInfo
 
 class MediaMeta {
     companion object {
