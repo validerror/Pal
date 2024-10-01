@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/df_setting"
     android:layout_width="310dp"
     android:layout_height="match_parent"
     android:background="@drawable/round_corner"
@@ -10,10 +9,10 @@
     <!-- thumbnail here -->
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/df_thumbnail"
-        android:scaleType="fitCenter"
         android:layout_width="300dp"
         android:layout_height="240dp"
         android:layout_gravity="center_horizontal"
+        android:scaleType="fitCenter"
         app:shapeAppearance="@style/RoundCorner"
         app:strokeColor="@null" />
     <!-- basic action -->
@@ -45,5 +44,16 @@
             android:text="@string/settingApply"
             android:textSize="18sp" />
     </FrameLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:id="@+id/df_setting"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+        </LinearLayout>
+    </ScrollView>
 
 </LinearLayout>

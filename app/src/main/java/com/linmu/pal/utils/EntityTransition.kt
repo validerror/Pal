@@ -26,11 +26,14 @@ class EntityTransition {
             return true
         }
 
-        // Image always keep portrait till crop by user
         fun imageToEntity(context: Context, imageUri: Uri, filename: String): Boolean {
             val (width, height) = MediaMeta.getImageDimensions(context, imageUri)
+            var orientation = MediaInfo.ORIENTATION_PORTRAIT
+            if (width > height){
+                orientation = MediaInfo.ORIENTATION_LANDSCAPE
+            }
             val mediaInfo = MediaInfo(
-                MediaInfo.TYPE_IMAGE, MediaInfo.ORIENTATION_PORTRAIT,
+                MediaInfo.TYPE_IMAGE, orientation,
                 MediaInfo.GRAVITY_BOTTOM,
                 width, height, filename
             )

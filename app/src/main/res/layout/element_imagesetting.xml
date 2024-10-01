@@ -17,11 +17,20 @@
         android:textSize="18sp" />
 
     <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/eis_siv_image0"
+        android:layout_marginEnd="70dp"
+        android:layout_gravity="end|center_vertical"
+        app:shapeAppearance="@style/RoundCorner"
+        app:strokeColor="@null"
+        android:layout_width="40dp"
+        android:layout_height="40dp"/>
+
+    <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/eis_siv_image"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_gravity="end|center_vertical"
-        android:layout_marginEnd="10dp"
+        android:layout_marginEnd="20dp"
         app:shapeAppearance="@style/RoundCorner"
         app:strokeColor="@null" />
 </FrameLayout>

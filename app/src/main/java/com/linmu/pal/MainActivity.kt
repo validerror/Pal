@@ -118,7 +118,6 @@ class MainActivity : AppCompatActivity() {
                 val res = singleImagePicker.launch()
                 if (res != 0) {
                     thumbnailAdapter.notifyItemInserted(DataHolder.mediaList.size - 1)
-                    FileOperation.writeRecord(this@MainActivity)
                 }
             }
         }
@@ -128,7 +127,6 @@ class MainActivity : AppCompatActivity() {
                 val res = multiImagePicker.launch()
                 if (res != 0) {
                     thumbnailAdapter.notifyItemRangeInserted(startPosition, res)
-                    FileOperation.writeRecord(this@MainActivity)
                 }
             }
         }
@@ -137,7 +135,6 @@ class MainActivity : AppCompatActivity() {
                 val res = singleVideoPicker.launch()
                 if (res != 0) {
                     thumbnailAdapter.notifyItemInserted(DataHolder.mediaList.size - 1)
-                    FileOperation.writeRecord(this@MainActivity)
                 }
             }
         }

@@ -60,7 +60,11 @@ class CropImageLauncher(
             setCompressionQuality(100)
         }
         uCrop.withOptions(options)
-        uCrop.withAspectRatio(width.toFloat(), height.toFloat())
+        if (newMediaInfo.orientation == MediaInfo.ORIENTATION_PORTRAIT){
+            uCrop.withAspectRatio(width.toFloat(), height.toFloat())
+        }else{
+            uCrop.withAspectRatio(height.toFloat(), width.toFloat())
+        }
         val uCropIntent = uCrop.getIntent(activity)
         cropLauncher.launch(uCropIntent)
     }

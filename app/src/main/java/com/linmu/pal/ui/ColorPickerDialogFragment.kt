@@ -11,6 +11,7 @@ import android.widget.ImageView
 import android.widget.SeekBar
 import android.widget.TextView
 import androidx.fragment.app.DialogFragment
+import com.google.android.material.imageview.ShapeableImageView
 import com.linmu.pal.R
 
 class ColorPickerDialogFragment(
@@ -18,7 +19,7 @@ class ColorPickerDialogFragment(
     private val applyColor: (Int) -> Unit
 ) : DialogFragment() {
 
-    private lateinit var previewIV: ImageView
+    private lateinit var previewSIV: ShapeableImageView
     private lateinit var aSB: SeekBar
     private lateinit var rSB: SeekBar
     private lateinit var gSB: SeekBar
@@ -44,7 +45,7 @@ class ColorPickerDialogFragment(
     ): View? {
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         val pickColorDialog = inflater.inflate(R.layout.dialogfragment_pickcolor, container, false)
-        previewIV = pickColorDialog.findViewById(R.id.dfpc_preview)
+        previewSIV = pickColorDialog.findViewById(R.id.dfpc_preview)
         aSB = pickColorDialog.findViewById(R.id.dfpc_sb_a)
         rSB = pickColorDialog.findViewById(R.id.dfpc_sb_r)
         gSB = pickColorDialog.findViewById(R.id.dfpc_sb_g)
@@ -71,11 +72,11 @@ class ColorPickerDialogFragment(
     }
 
     private fun setPreview(argbColor: Int) {
-        previewIV.setImageDrawable(ColorDrawable(argbColor))
+        previewSIV.setImageDrawable(ColorDrawable(argbColor))
     }
 
     private fun updatePreview(alpha: Int, argbR: Int, argbG: Int, argbB: Int) {
-        previewIV.setImageDrawable(ColorDrawable(Color.argb(alpha, argbR, argbG, argbB)))
+        previewSIV.setImageDrawable(ColorDrawable(Color.argb(alpha, argbR, argbG, argbB)))
     }
 
     private fun setSeekBarOriginal(argbColor: Int) {

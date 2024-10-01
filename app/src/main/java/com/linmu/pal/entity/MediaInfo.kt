@@ -8,7 +8,10 @@ data class MediaInfo(
     var mediaHeight: Int,
     val mediaName: String,
     var enableClock: Boolean = true,
-    var clockColor: Int = 0xFFE6E6FA.toInt()
+    var clockColor: Int = 0xFFE6E6FA.toInt(),
+    var enableBatteryInfo: Boolean = true,
+    var batteryBarStartColor:Int = 0xFFFF0000.toInt(),
+    var batteryBarEndColor:Int = 0xFF00FF00.toInt()
 ) {
     fun deepCopy(): MediaInfo {
         return MediaInfo(
@@ -19,7 +22,10 @@ data class MediaInfo(
             mediaHeight,
             mediaName,
             enableClock,
-            clockColor
+            clockColor,
+            enableBatteryInfo,
+            batteryBarStartColor,
+            batteryBarEndColor
         )
     }
 

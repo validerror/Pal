@@ -22,4 +22,10 @@
     <string name="argb_r">R</string>
     <string name="argb_g">G</string>
     <string name="argb_b">B</string>
+    <string name="enableBattery">Enable Battery Bar</string>
+    <string name="chargeAC">AC</string>
+    <string name="chargeUSB">USB</string>
+    <string name="chargeWireless">Wireless</string>
+    <string name="chargeUnknown">Charging</string>
+    <string name="batteryBarGradient">Color Gradient</string>
 </resources>

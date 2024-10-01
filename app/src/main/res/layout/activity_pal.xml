@@ -3,10 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/pa_frameLayout"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="240dp"
+    android:layout_height="120dp"
     tools:context=".ui.PalActivity">
-
+    <!-- clock -->
     <TextView
         android:id="@+id/pa_tv_timer"
         android:layout_width="220dp"
@@ -21,4 +21,20 @@
         android:text="@string/defaultTime"
         android:textColor="#E6E6FA"
         android:textSize="80sp" />
+    <!--    battery -->
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/pa_siv_battery"
+        android:layout_width="120dp"
+        android:layout_height="4dp"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginBottom="10dp"
+        app:shapeAppearance="@style/SemiCircleEnd"
+        app:strokeColor="@null" />
+    <!--    charge status -->
+    <ImageView
+        android:id="@+id/pa_iv_charge"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_gravity="bottom|center_horizontal"
+        android:src="@drawable/baseline_all_inclusive_24" />
 </FrameLayout>

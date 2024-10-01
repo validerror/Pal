@@ -10,12 +10,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
-import androidx.fragment.app.FragmentManager
 import com.google.android.material.imageview.ShapeableImageView
 import com.google.android.material.materialswitch.MaterialSwitch
 import com.linmu.pal.DataHolder
@@ -115,7 +113,8 @@ class MediaSettingDialogFragment(
     override fun onResume() {
         super.onResume()
         setThumbnail()
-        newMediaInfo = DataHolder.mediaList[settingPosition].deepCopy()
+        newMediaInfo.mediaWidth = DataHolder.mediaList[settingPosition].mediaWidth
+        newMediaInfo.mediaHeight = DataHolder.mediaList[settingPosition].mediaHeight
         updateDimension()
     }
 
@@ -131,6 +130,8 @@ class MediaSettingDialogFragment(
         addEnableClockSwitch(inflater)
         addElementGravitySetting(inflater)
         addClockColorSetting(inflater)
+        addBatteryInfoSetting(inflater)
+        addBatteryColorGradient(inflater)
     }
 
     private fun addDimensionTable(inflater: LayoutInflater) {
@@ -192,7 +193,7 @@ class MediaSettingDialogFragment(
         val settingName: TextView = elementGravitySetting.findViewById(R.id.eis_tv_settingName)
         settingName.text = resources.getString(R.string.elementGravity)
         val gravitySIV: ShapeableImageView = elementGravitySetting.findViewById(R.id.eis_siv_image)
-        gravitySIV.setImageResource(R.drawable.baseline_format_underlined_32)
+        gravitySIV.setImageResource(R.drawable.gravity_32)
         gravitySIV.rotation = 90F * ((newMediaInfo.gravity + 1) % 4)
         gravitySIV.setOnClickListener {
             newMediaInfo.rotateQuarter()
@@ -214,8 +215,47 @@ class MediaSettingDialogFragment(
                     newMediaInfo.clockColor = resColor
                     colorSIV.setImageDrawable(ColorDrawable(newMediaInfo.clockColor))
                 }
-            colorPickerDialogFragment.show(childFragmentManager,"colorDialog")
+            colorPickerDialogFragment.show(childFragmentManager, "colorDialog")
         }
         settingsContainer.addView(clockColorSetting)
+    }
+
+    private fun addBatteryInfoSetting(inflater: LayoutInflater) {
+        val enableBatteryInfoSwitch =
+            inflater.inflate(R.layout.element_switchsetting, settingsContainer, false)
+        val settingName: TextView = enableBatteryInfoSwitch.findViewById(R.id.ess_tv_settingName)
+        settingName.text = resources.getString(R.string.enableBattery)
+        val switch: MaterialSwitch = enableBatteryInfoSwitch.findViewById(R.id.ess_ms_switch)
+        switch.isChecked = newMediaInfo.enableBatteryInfo
+        switch.setOnCheckedChangeListener { buttonView, isChecked ->
+            newMediaInfo.enableBatteryInfo = isChecked
+        }
+        settingsContainer.addView(enableBatteryInfoSwitch)
+    }
+
+    private fun addBatteryColorGradient(inflater: LayoutInflater){
+        val batteryColorGradient = inflater.inflate(R.layout.element_imagesetting,settingsContainer,false)
+        val settingName:TextView = batteryColorGradient.findViewById(R.id.eis_tv_settingName)
+        settingName.text = resources.getString(R.string.batteryBarGradient)
+        val startColor:ShapeableImageView = batteryColorGradient.findViewById(R.id.eis_siv_image0)
+        val endColor:ShapeableImageView = batteryColorGradient.findViewById(R.id.eis_siv_image)
+        startColor.setImageDrawable(ColorDrawable(newMediaInfo.batteryBarStartColor))
+        endColor.setImageDrawable(ColorDrawable(newMediaInfo.batteryBarEndColor))
+        startColor.setOnClickListener {
+            val colorPickerDialogFragment =
+                ColorPickerDialogFragment(newMediaInfo.batteryBarStartColor) { resColor ->
+                    newMediaInfo.batteryBarStartColor = resColor
+                    startColor.setImageDrawable(ColorDrawable(newMediaInfo.batteryBarStartColor))
+                }
+            colorPickerDialogFragment.show(childFragmentManager, "colorDialog")
+        }
+        endColor.setOnClickListener {
+            val colorPickerDialogFragment = ColorPickerDialogFragment(newMediaInfo.batteryBarEndColor){resColor ->
+                newMediaInfo.batteryBarEndColor = resColor
+                endColor.setImageDrawable(ColorDrawable(newMediaInfo.batteryBarEndColor))
+            }
+            colorPickerDialogFragment.show(childFragmentManager,"colorDialog")
+        }
+        settingsContainer.addView(batteryColorGradient)
     }
 }
